@@ -8,6 +8,7 @@
 #include <booster/shared_ptr.h>
 #include <iostream>
 #include <cstdlib>
+#include <sstream>
 #include <memory>
 #include "content.h"
 
@@ -37,11 +38,10 @@ public:
     file.type = type;
     if ( request().request_method() == "POST" ) {
       file.form.load( context() );
-      file.form.key.value();
-      // file.key = file.form.key.value();
-      // cout << "Type: " << file.type << endl;
-      // cout << "Key: " << file.key << endl;
-      // cout << "File Data: " << file.form.file.value() << endl;
+      file.key = file.form.key.value();
+      cout << "Type: " << file.type << endl;
+      cout << "Key: " << file.key << endl;
+      cout << "File Data: " << file.form.file.value() << endl;
       response().status( 201 );
       response().out() << "<h1>Monkeys</h1>" << endl;
     } else {

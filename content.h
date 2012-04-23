@@ -8,6 +8,11 @@ namespace content {
 
   struct UploadedFileForm : public form
   {
+    UploadedFileForm()
+    {
+      add( file );
+      add( key );
+    }
     widgets::file file;
     widgets::text key;
   };
