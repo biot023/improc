@@ -11,13 +11,6 @@
 #include <memory>
 #include "content.h"
 
-/* Compile with:
- * $CXX imageserver.cpp -I/usr/local/include -lcppcms -o imageserver
- *
- * Run with:
- * ./imageserver -c config.js
- */
-
 using namespace std;
 
 class ImageServer : public cppcms::application {
