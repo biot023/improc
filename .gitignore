@@ -1,0 +1,8 @@
+*.o
+test/integration_runner
+test/test_runner
+imageserver
+tmp/
+*.DS_Store
+gtest/libgtest.a
+Gemfile.lock

@@ -1,0 +1,12 @@
+{
+  "service": {
+    "api": "http",
+    "port": 8080
+  },
+  "http": {
+    "script_names": [ "/imageserver" ]
+  },
+  "imageserver": {
+    "storage": "tmp/"
+  }
+}
