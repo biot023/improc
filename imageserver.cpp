@@ -11,6 +11,14 @@
 #include <memory>
 #include "content.h"
 
+/* Compile:
+ * g++-mp-4.7 -c -std=gnu++11 -pthread -dynamic -Wall -g -D_GLIBCXX_USE_NANOSLEEP -Iinclude -Igtest/include -I/usr/local/include -o imageserver.o imageserver.cpp -I/opt/local/include/ImageMagick   -I/opt/local/include/ImageMagick   -L/opt/local/lib -lMagick++ -lMagickCore   -L/opt/local/lib -lMagick++ -lMagickCore
+ *
+ * Link:
+ * g++-mp-4.7 imageserver.o -lbooster -lcppcms -lssl -lcrypto -o imageserver -I/opt/local/include/ImageMagick   -I/opt/local/include/ImageMagick   -L/opt/local/lib -lMagick++ -lMagickCore   -L/opt/local/lib -lMagick++ -lMagickCore
+ *
+ */
+
 using namespace std;
 
 class ImageServer : public cppcms::application {
