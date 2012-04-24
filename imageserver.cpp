@@ -37,11 +37,12 @@ public:
     content::UploadedFile file;
     file.type = type;
     if ( request().request_method() == "POST" ) {
-      file.form.load( context() );
-      file.key = file.form.key.value();
+      file.ufform.load( context() );
+      file.owner = file.ufform.owner.value();
+      // file.data = file.ufform.data.value();
       cout << "Type: " << file.type << endl;
-      cout << "Key: " << file.key << endl;
-      cout << "File Data: " << file.form.file.value() << endl;
+      cout << "Owner: \"" << file.owner << "\"" << endl;
+      cout << "File: " << file.ufform.data.value() << endl;
       response().status( 201 );
       response().out() << "<h1>Monkeys</h1>" << endl;
     } else {

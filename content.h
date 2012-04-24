@@ -10,17 +10,17 @@ namespace content {
   {
     UploadedFileForm()
     {
-      add( file );
-      add( key );
+      add( owner );
+      add( data );
     }
-    widgets::file file;
-    widgets::text key;
+    widgets::text owner;
+    widgets::file data;
   };
 
   struct UploadedFile : public base_content
   {
-    string type, key;
-    UploadedFileForm form;
+    string type, owner, data;
+    UploadedFileForm ufform;
   };
   
 }
