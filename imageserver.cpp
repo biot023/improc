@@ -18,6 +18,8 @@
  * Link:
  * g++-mp-4.7 imageserver.o -lbooster -lcppcms -lssl -lcrypto -o imageserver -I/opt/local/include/ImageMagick   -I/opt/local/include/ImageMagick   -L/opt/local/lib -lMagick++ -lMagickCore   -L/opt/local/lib -lMagick++ -lMagickCore
  *
+ * Run:
+ * curl localhost:8080/imageserver/abc -F _1="def" -F _2=@features/fixtures/img01.jpg
  */
 
 using namespace std;
