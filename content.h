@@ -11,15 +11,12 @@ namespace content {
   {
     UploadedFileForm()
     {
+      file.non_empty();
+      file.limits( 0, 6291456 );
+      file.error_message( "Must be not empty and 6 megabytes or less in size" );
       add( file );
     }
     widgets::file file;
-  };
-
-  struct UploadedFile : public base_content
-  {
-    string type, owner, data;
-    UploadedFileForm upload_form;
   };
   
 }

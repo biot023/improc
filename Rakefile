@@ -45,6 +45,11 @@ task :set_test_cfilter do
   end
 end
 
+desc "Generate the server and run the features"
+task :cuke => :imageserver do
+  sh "cucumber"
+end
+
 desc "Clean up all generated files"
 task :clean do
   sh "#{ RM } #{ CLEANLIST.join( " " ) }" if CLEANLIST.size > 0

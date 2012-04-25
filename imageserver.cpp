@@ -36,22 +36,19 @@ public:
 
   void create( string type, string owner )
   {
-    content::UploadedFile file;
-    file.type = type;
-    file.owner = owner;
+    content::UploadedFileForm form;
     if ( request().request_method() == "POST" ) {
-      file.upload_form.load( context() );
-      stringstream buf;
-      buf << file.upload_form.file.value()->data().rdbuf();
-      file.data = buf.str();
-      cout << "Type: " << file.type << endl;
-      cout << "Owner: \"" << file.owner << "\"" << endl;
-      cout << "Data: " << file.data << endl;
-      response().status( 201 );
-      response().out() << "<span>Pissfear</span>";
+      form.load( context() );
+      if ( form.validate() ) {
+        // form.file.value()->data().rdbuf();
+        response().status( 201 );
+        response().out() << "<span>Pissfear</span>";
+      } else {
+        response().status( 403 );
+        response().out() << form.file.error_message().str();
+      }
     } else {
-      response().status( 201 );
-      response().out() << "Didn't work, somehow";
+      response().status( 404 );
     }
   }
   
