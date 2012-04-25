@@ -18,8 +18,8 @@
  * Link:
  * g++-mp-4.7 imageserver.o -lbooster -lcppcms -lssl -lcrypto -o imageserver -I/opt/local/include/ImageMagick   -I/opt/local/include/ImageMagick   -L/opt/local/lib -lMagick++ -lMagickCore   -L/opt/local/lib -lMagick++ -lMagickCore
  *
- * Run:
- * curl localhost:8080/imageserver/abc -F _1="def" -F _2=@features/fixtures/img01.jpg
+ * Call:
+ * curl localhost:8080/imageserver/abc/def -F _1=@features/fixtures/img01.jpg
  */
 
 using namespace std;
@@ -29,24 +29,26 @@ public:
   ImageServer( cppcms::service &srv ) :
     cppcms::application( srv )
   {
-    dispatcher().assign( "/([a-z0-9]*)", &ImageServer::create, this, 1 );
-    mapper().assign( "create", "/{1}" );
+    dispatcher().assign( "/([a-zA-Z0-9]+)/([a-zA-Z0-9]+)", &ImageServer::create, this, 1, 2 );
+    mapper().assign( "create", "/{1}/{2}" );
     mapper().root( "/imageserver" );
   }
 
-  void create( string type )
+  void create( string type, string owner )
   {
     content::UploadedFile file;
     file.type = type;
+    file.owner = owner;
     if ( request().request_method() == "POST" ) {
-      file.ufform.load( context() );
-      file.owner = file.ufform.owner.value();
-      // file.data = file.ufform.data.value();
+      file.upload_form.load( context() );
+      stringstream buf;
+      buf << file.upload_form.file.value()->data().rdbuf();
+      file.data = buf.str();
       cout << "Type: " << file.type << endl;
       cout << "Owner: \"" << file.owner << "\"" << endl;
-      cout << "File: " << file.ufform.data.value() << endl;
+      cout << "Data: " << file.data << endl;
       response().status( 201 );
-      response().out() << "<h1>Monkeys</h1>" << endl;
+      response().out() << "<span>Pissfear</span>";
     } else {
       response().status( 201 );
       response().out() << "Didn't work, somehow";

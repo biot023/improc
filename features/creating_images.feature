@@ -6,9 +6,9 @@ Feature: Creating images
   Scenario: Uploading an image
     Given there are no images of type "zeppelin"
     When I upload the image "img01.jpg" with the following options:
-      | Image Type | Key    |
-      | zeppelin   | abcdef |
-    Then I should receive a 201 response with the image ID
+      | Type     | Owner  |
+      | zeppelin | abcdef |
+    Then I should receive a 201 response with the UID
 
   Scenario: Uploading multiple images
     Given Pending

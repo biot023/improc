@@ -15,8 +15,6 @@ CLEANLIST    = FileList[ "server", "test/test_runner", "**/*.o", "tmp/**/*" ]
 
 CXXFLAGS = %w( -std=gnu++11 -pthread -dynamic -Wall -g -D_GLIBCXX_USE_NANOSLEEP ) +
   INCLUDE_DIRS.map { |idir| "-I#{ idir }" }
-# CXXFLAGS = %w( -pthread -Wall -g -D_GLIBCXX_USE_NANOSLEEP ) +
-#   INCLUDE_DIRS.map { |idir| "-I#{ idir }" }
 MXXFLAGS = `Magick++-config --cxxflags --cppflags --ldflags --libs`
   .gsub( "\n", " " )
 

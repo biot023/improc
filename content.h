@@ -1,5 +1,6 @@
 #include <cppcms/view.h>
 #include <cppcms/form.h>
+#include <cppcms/http_file.h>
 #include <string>
 
 namespace content {
@@ -10,17 +11,15 @@ namespace content {
   {
     UploadedFileForm()
     {
-      add( owner );
-      add( data );
+      add( file );
     }
-    widgets::text owner;
-    widgets::file data;
+    widgets::file file;
   };
 
   struct UploadedFile : public base_content
   {
     string type, owner, data;
-    UploadedFileForm ufform;
+    UploadedFileForm upload_form;
   };
   
 }
