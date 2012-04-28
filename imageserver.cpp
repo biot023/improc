@@ -39,29 +39,19 @@ public:
     content::UploadedFileForm form;
     if ( request().request_method() == "POST" ) {
       form.load( context() );
-      if ( form.validate() ) {
-        // form.file.value()->data().rdbuf();
+      try {
+        if ( ! form.validate() ) throw runtime_error( form.file.error_message.str() );
         response().status( 201 );
-        response().out() << "<span>Pissfear</span>";
-      } else {
+        response().out()
+          << service::FileCreator( type, owner, form.file.value()->data() )();
+      } catch ( const exception &e ) {
         response().status( 403 );
-        response().out() << form.file.error_message().str();
+        response().out() << e.what();
       }
     } else {
       response().status( 404 );
     }
   }
-  
-  // virtual void main( std::string url )
-  // {
-  //   response().out() <<
-  //     "<html>\n"
-  //     "<body>\n"
-  //     "  <h1>Hello, World!</h1>\n"
-  //     "<h2>" << request().path_info() << "</h2>\n"
-  //     "</body>\n"
-  //     "</html>\n";
-  // }
 };
 
 int main( int argc, char *argv[] )
