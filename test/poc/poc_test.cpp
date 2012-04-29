@@ -3,7 +3,11 @@
 #include <string>
 
 /* Compile:
- *g++-mp-4.7 -c -std=gnu++11 -dynamic -Wall -g -Iinclude -Igmock/include -Igmock/gtest/include -I/usr/local/include -o test/poc/poc_test.o test/poc/poc_test.cpp -I/opt/local/include/ImageMagick   -I/opt/local/include/ImageMagick   -L/opt/local/lib -lMagick++ -lMagickCore   -L/opt/local/lib -lMagick++ -lMagickCore
+ * g++-mp-4.7 -c -std=gnu++11 -dynamic -Wall -g -Iinclude -Igmock/include -Igmock/gtest/include -I/usr/local/include -o test/poc/poc_test.o test/poc/poc_test.cpp -I/opt/local/include/ImageMagick   -I/opt/local/include/ImageMagick   -L/opt/local/lib -lMagick++ -lMagickCore   -L/opt/local/lib -lMagick++ -lMagickCore
+ * g++-mp-4.7 -c -std=gnu++11 -dynamic -Wall -g -Iinclude -Igmock/include -Igmock/gtest/include -I/usr/local/include -o test/test_runner.o test/test_runner.cpp -I/opt/local/include/ImageMagick   -I/opt/local/include/ImageMagick   -L/opt/local/lib -lMagick++ -lMagickCore   -L/opt/local/lib -lMagick++ -lMagickCore
+ * g++-mp-4.7 -Igmock/gtest/include -Igmock/gtest -Igmock/include -Igmock -c gmock/gtest/src/gtest-all.cc -o gmock/gtest/gtest-all.o
+ * g++-mp-4.7 -Igmock/gtest/include -Igmock/gtest -Igmock/include -Igmock -c gmock/src/gmock-all.cc -o gmock/gmock-all.o
+ * ar -rv gmock/libgmock.a gmock/gtest/gtest-all.o gmock/gmock-all.o
  *
  * Link:
  * g++-mp-4.7 test/poc/poc_test.o test/test_runner.o gmock/libgmock.a -lbooster -lcppcms -lssl -lcrypto -o test/test_runner -I/opt/local/include/ImageMagick   -I/opt/local/include/ImageMagick   -L/opt/local/lib -lMagick++ -lMagickCore   -L/opt/local/lib -lMagick++ -lMagickCore
