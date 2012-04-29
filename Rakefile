@@ -4,13 +4,14 @@ AR  = "ar -rv"
 RM  = "rm -f"
 
 INCLUDE_DIRS = [ "include",
-                 "gtest/include",
+                 "gmock/include",
+                 "gmock/gtest/include",
                  "/usr/local/include" ]
 TESTSRC          = FileList[ "test/**/*.cpp" ]
 HEADERS      = FileList[ "include/**/*.h" ]
 TESTOBJ      = TESTSRC.ext( "o" )
 LIBS         = [ "-lbooster", "-lcppcms", "-lssl", "-lcrypto" ]
-TESTLIBS     = FileList[ "gtest/libgtest.a" ]
+TESTLIBS     = FileList[ "gmock/libgmock.a" ]
 CLEANLIST    = FileList[ "server", "test/test_runner", "**/*.o", "tmp/**/*" ]
 
 CXXFLAGS = %w( -std=gnu++11 -pthread -dynamic -Wall -g -D_GLIBCXX_USE_NANOSLEEP ) +
@@ -57,12 +58,16 @@ end
 
 # ----- FILES -----------------------------------
 #
-file "gtest/src/gtest-all.o" do |f|
-  sh "#{ CXX } -Igtest/include -Igtest -c gtest/src/gtest-all.cc -o gtest/src/gtest-all.o"
+file "gmock/gtest/gtest-all.o" do |f|
+  sh "#{ CXX } -Igmock/gtest/include -Igmock/gtest -Igmock/include -Igmock -c gmock/gtest/src/gtest-all.cc -o gmock/gtest/gtest-all.o"
 end
 
-file "gtest/libgtest.a" => "gtest/src/gtest-all.o" do |f|
-  sh "#{ AR } gtest/libgtest.a gtest/src/gtest-all.o"
+file "gmock/gmock-all.o" do |f|
+  sh "#{ CXX } -Igmock/gtest/include -Igmock/gtest -Igmock/include -Igmock -c gmock/src/gmock-all.cc -o gmock/gmock-all.o"
+end
+
+file "gmock/libgmock.a" => [ "gmock/gtest/gtest-all.o", "gmock/gmock-all.o" ] do |f|
+  sh "#{ AR } gmock/libgmock.a #{ j f.prerequisites }"
 end
 
 file "test/test_runner" => TESTOBJ + TESTLIBS do |f|
