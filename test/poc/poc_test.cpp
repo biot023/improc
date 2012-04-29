@@ -2,6 +2,19 @@
 #include <iostream>
 #include <string>
 
+/* Compile:
+ *g++-mp-4.7 -c -std=gnu++11 -dynamic -Wall -g -Iinclude -Igmock/include -Igmock/gtest/include -I/usr/local/include -o test/poc/poc_test.o test/poc/poc_test.cpp -I/opt/local/include/ImageMagick   -I/opt/local/include/ImageMagick   -L/opt/local/lib -lMagick++ -lMagickCore   -L/opt/local/lib -lMagick++ -lMagickCore
+ *
+ * Link:
+ * g++-mp-4.7 test/poc/poc_test.o test/test_runner.o gmock/libgmock.a -lbooster -lcppcms -lssl -lcrypto -o test/test_runner -I/opt/local/include/ImageMagick   -I/opt/local/include/ImageMagick   -L/opt/local/lib -lMagick++ -lMagickCore   -L/opt/local/lib -lMagick++ -lMagickCore
+ *
+ * Run:
+ * ./test/test_runner
+ *
+ * Or all with Rakefile:
+ * rake test CFILTER="poc_test"
+ */
+
 namespace poc {
   using namespace std;
   
