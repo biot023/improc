@@ -40,7 +40,7 @@ public:
     if ( request().request_method() == "POST" ) {
       form.load( context() );
       try {
-        if ( ! form.validate() ) throw runtime_error( form.file.error_message.str() );
+        if ( ! form.validate() ) throw runtime_error( form.file.error_message().str() );
         response().status( 201 );
         response().out()
           << service::FileCreator( type, owner, form.file.value()->data() )();
