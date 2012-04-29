@@ -7,12 +7,14 @@ namespace img {
     RootFile( const string &storage_dir,
               const string &type,
               const string &owner,
-              const istream &source,
+              streambuf *source,
               const size_t size )
-      : _uid( "" ), _storage_dir( storage_dir ), _type( type ), _owner( owner ), _size( size )
+      : _uid( "" ), _storage_dir( storage_dir ), _type( type ), _owner( owner ),
+        _source( source ), _size( size )
     {
       // TODO
     }
+    virtual ~RootFile() { cout << "~RootFile()" << endl; }
 
     virtual const string & uid() const { return _uid; }
     virtual const string & type() const { return _type; }
@@ -23,6 +25,7 @@ namespace img {
     virtual const string save() { return false; }
   private:
     string _uid, _storage_dir, _type, _owner, _data;
+    streambuf *_source;
     size_t _size;
   };
   
