@@ -14,5 +14,11 @@ namespace img {
     virtual const string & data() const = 0;
     virtual const size_t size() const = 0;
   };
+
+  struct IRootFile : public IFile
+  {
+    virtual ~IRootFile() {}
+    virtual const string save() = 0;
+  };
   
 }
