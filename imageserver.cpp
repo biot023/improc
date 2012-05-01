@@ -26,8 +26,6 @@
 using namespace std;
 using namespace service;
 
-const ResourceManager rm;
-
 class ImageServer : public cppcms::application {
 public:
   ImageServer( cppcms::service &srv ) :
@@ -48,7 +46,7 @@ public:
         if ( ! form.validate() ) throw runtime_error( form.file.error_message().str() );
         response().status( 201 );
         response().out()
-          << FileCreator( rm, _storage_dir, type, owner,
+          << FileCreator( _storage_dir, type, owner,
                           form.file.value()->data(), form.file.value()->size() )();
       } catch ( const exception &e ) {
         response().status( 403 );
