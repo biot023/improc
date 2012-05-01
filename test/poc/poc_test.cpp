@@ -35,7 +35,7 @@ namespace poc {
   {
     Poc2( Poc1 &poc1 ) : _poc1( poc1 ) {}
     virtual ~Poc2() {}
-    virtual const string get_str() { return _poc1.get_str(); }
+    virtual const string get_str() const { return _poc1.get_str(); }
   private:
     Poc1 _poc1;
   };
