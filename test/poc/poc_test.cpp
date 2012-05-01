@@ -55,7 +55,7 @@ namespace {
   struct MockPoc1 : public Poc1
   {
     MockPoc1() : Poc1( "poc1 string" ) {}
-    MOCK_METHOD0( get_str, const string() );
+    MOCK_CONST_METHOD0( get_str, const string() );
   };
 
   struct PocTest : public Test
