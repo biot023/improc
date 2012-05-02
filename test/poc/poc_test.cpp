@@ -86,7 +86,7 @@ namespace {
   {
   protected:
     string _msg;
-    shared_ptr<const IPoc1> _poc1;
+    shared_ptr<const MockPoc1> _poc1;
     PartMockPoc2 _poc2;
     PocTest() :
       _msg( "mock poc1 string" ),
@@ -97,7 +97,8 @@ namespace {
         .WillOnce( Return( _msg ) );
       EXPECT_CALL( _poc2, _get_poc1() )
         .Times( 1 )
-        .WillOnce( Return( _poc1 ) );
+        .WillOnce( Return( shared_ptr<const IPoc1>( _poc1 ) ) );
+      EXPECT_CALL( _poc2, get_str() );
     }
   };
 
