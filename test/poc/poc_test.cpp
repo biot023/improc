@@ -61,8 +61,7 @@ namespace {
   using ::testing::Test;
   using ::testing::Return;
   using ::testing::Invoke;
-  using ::testing::Const;
-  using ::testing::Pointee;
+  using ::testing::Eq;
 
   struct MockPoc1 : public IPoc1
   {
@@ -93,18 +92,35 @@ namespace {
       _poc1( make_shared<const MockPoc1>() )
     {
       EXPECT_CALL( *_poc1, get_str() )
-        .Times( 1 )
-        .WillOnce( Return( _msg ) );
+        .WillRepeatedly( Return( _msg ) );
       EXPECT_CALL( _poc2, _get_poc1() )
-        .Times( 1 )
-        .WillOnce( Return( shared_ptr<const IPoc1>( _poc1 ) ) );
+        .WillRepeatedly( Return( shared_ptr<const IPoc1>( _poc1 ) ) );
       EXPECT_CALL( _poc2, get_str() );
     }
+    const string _subject() const { return _poc2.get_str(); }
   };
 
-  // Should instantiate a poc1 and return the result of it's get_str() function
+  // Should instantiate a poc1
   TEST_F( PocTest,
-          ShouldInstantiateAPoc1AndReturnTheResultOfItsGetStrFunction ) {
-    EXPECT_EQ( _msg, _poc2.get_str() );
+          ShouldInstantiateAPoc1 ) {
+    EXPECT_CALL( _poc2, _get_poc1() )
+      .Times( 1 )
+      .WillOnce( Return( shared_ptr<const IPoc1>( _poc1 ) ) );
+    _subject();
+  }
+
+  // Should call get_str on the poc1
+  TEST_F( PocTest,
+          ShouldCallGetStrOnThePoc1 ) {
+    EXPECT_CALL( *_poc1, get_str() )
+        .Times( 1 )
+        .WillOnce( Return( _msg ) );
+    _subject();
+  }
+
+  // Should return the value of the poc1's call to get_str
+  TEST_F( PocTest,
+          ShouldReturnTheValueOfThePoc1sCallToGetStr ) {
+    EXPECT_THAT( _subject(), Eq( _msg ) );
   }
 }
