@@ -104,7 +104,6 @@ namespace {
   TEST_F( PocTest,
           ShouldInstantiateAPoc1 ) {
     EXPECT_CALL( _poc2, _get_poc1() )
-      .Times( 1 )
       .WillOnce( Return( shared_ptr<const IPoc1>( _poc1 ) ) );
     _subject();
   }
@@ -113,8 +112,7 @@ namespace {
   TEST_F( PocTest,
           ShouldCallGetStrOnThePoc1 ) {
     EXPECT_CALL( *_poc1, get_str() )
-        .Times( 1 )
-        .WillOnce( Return( _msg ) );
+      .WillOnce( Return( _msg ) );
     _subject();
   }
 
