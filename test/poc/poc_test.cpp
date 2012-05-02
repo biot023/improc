@@ -4,14 +4,14 @@
 #include <memory>
 
 /* Compile:
- * g++-mp-4.7 -c -std=gnu++11 -dynamic -Wall -g -Iinclude -Igmock/include -Igmock/gtest/include -I/usr/local/include -o test/poc/poc_test.o test/poc/poc_test.cpp -I/opt/local/include/ImageMagick   -I/opt/local/include/ImageMagick   -L/opt/local/lib -lMagick++ -lMagickCore   -L/opt/local/lib -lMagick++ -lMagickCore
- * g++-mp-4.7 -c -std=gnu++11 -dynamic -Wall -g -Iinclude -Igmock/include -Igmock/gtest/include -I/usr/local/include -o test/test_runner.o test/test_runner.cpp -I/opt/local/include/ImageMagick   -I/opt/local/include/ImageMagick   -L/opt/local/lib -lMagick++ -lMagickCore   -L/opt/local/lib -lMagick++ -lMagickCore
+ * g++-mp-4.7 -c -std=gnu++11 -dynamic -Wall -g -Iinclude -Igmock/include -Igmock/gtest/include -I/usr/local/include -o test/poc/poc_test.o test/poc/poc_test.cpp
+ * g++-mp-4.7 -c -std=gnu++11 -dynamic -Wall -g -Iinclude -Igmock/include -Igmock/gtest/include -I/usr/local/include -o test/test_runner.o test/test_runner.cpp
  * g++-mp-4.7 -Igmock/gtest/include -Igmock/gtest -Igmock/include -Igmock -c gmock/gtest/src/gtest-all.cc -o gmock/gtest/gtest-all.o
  * g++-mp-4.7 -Igmock/gtest/include -Igmock/gtest -Igmock/include -Igmock -c gmock/src/gmock-all.cc -o gmock/gmock-all.o
  * ar -rv gmock/libgmock.a gmock/gtest/gtest-all.o gmock/gmock-all.o
  *
  * Link:
- * g++-mp-4.7 test/poc/poc_test.o test/test_runner.o gmock/libgmock.a -lbooster -lcppcms -lssl -lcrypto -o test/test_runner -I/opt/local/include/ImageMagick   -I/opt/local/include/ImageMagick   -L/opt/local/lib -lMagick++ -lMagickCore   -L/opt/local/lib -lMagick++ -lMagickCore
+ * g++-mp-4.7 test/poc/poc_test.o test/test_runner.o gmock/libgmock.a -lbooster -lcppcms -lssl -lcrypto -o test/test_runner
  *
  * Run:
  * ./test/test_runner
@@ -38,7 +38,13 @@ namespace poc {
     string _msg;
   };
 
-  struct Poc2
+  struct IPoc2
+  {
+    virtual ~IPoc2() {}
+    virtual const string get_str() const = 0;
+  };
+
+  struct Poc2 : public IPoc2
   {
     virtual const string get_str() const { return _get_poc1()->get_str(); }
   private:
@@ -63,12 +69,12 @@ namespace {
     MOCK_CONST_METHOD0( get_str, const string() );
   };
 
-  struct MockPoc2 : public Poc2
+  struct PartMockPoc2 : public Poc2
   {
-    MockPoc2()
+    PartMockPoc2()
     {
       ON_CALL( *this, get_str() )
-        .WillByDefault( Invoke( this, &MockPoc2::_pclass_get_str ) );
+        .WillByDefault( Invoke( this, &PartMockPoc2::_pclass_get_str ) );
     }
     MOCK_CONST_METHOD0( get_str, const string() );
     MOCK_CONST_METHOD0( _get_poc1, shared_ptr<const IPoc1>() );
@@ -81,10 +87,10 @@ namespace {
   protected:
     string _msg;
     shared_ptr<const IPoc1> _poc1;
-    MockPoc2 _poc2;
+    PartMockPoc2 _poc2;
     PocTest() :
       _msg( "mock poc1 string" ),
-      _poc1( make_shared<MockPoc1>() )
+      _poc1( make_shared<const MockPoc1>() )
     {
       EXPECT_CALL( *_poc1, get_str() )
         .Times( 1 )
